@@ -1,14 +1,18 @@
-import { makeAutoObservable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 class Todo {
   todos = [
-    {id: 1, title: 'аараоаоатаьоачееаодрлмоыилмы', complited: false},
+    {id: 1, title: 'kgjfgsggfhfhfhfghfhfgfhfhf', complited: false},
     {id: 2, title: 'hjgjxxfhfhfhfghfhfgfhfhf', complited: false},
     {id: 3, title: 'wffjfjjfhfgjjfhfjfjfh', complited: false}
   ]
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(
+      this, 
+      // {todos: observable, addTodo: action, complited}, 
+      // {deep: true}
+    );
   }
 
   addTodo(todo) {
@@ -24,6 +28,12 @@ class Todo {
       if (todo.id === id) todo.complited = isChecked;
       return todo
     })
+  }
+
+  fetchTodo () {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then(response => response.json())
+      .then(json => this.todos.push(...json))
   }
 }
 
